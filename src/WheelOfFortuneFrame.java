@@ -131,30 +131,15 @@ public class WheelOfFortuneFrame extends JFrame {
 	 * @param generator the random-number generator to use
 	 */
 	public WheelOfFortuneFrame(Random generator) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-		setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-		setTitle("Wheel of Fortune");
-		setLayout(new FlowLayout());
-
-		// Spins the wheel
 		this.generator = generator;
-		WheelSpace currentSpace = spinWheel();
-		ImageIcon slice = currentSpace.getWheelImage();
 
-		// Displays slice wheel landed on
-		JLabel sliceLabel = new JLabel(slice);
-		sliceLabel.setBounds(10, 10, 400, 400);
-		sliceLabel.setVisible(true);
-		add(sliceLabel, java.awt.BorderLayout.CENTER);
-		pack();
 	}
 
 	// Randomly generates slice wheel will land on
 	public WheelSpace spinWheel() {
 		WheelSpace[] wheel = loadImages();
+		System.out.println(generator.nextInt(NUM_WHEEL_SPACES));
 		int wheelSpace = generator.nextInt(NUM_WHEEL_SPACES);
-		System.out.println(wheelSpace);
 		return wheel[wheelSpace];
 	}
 

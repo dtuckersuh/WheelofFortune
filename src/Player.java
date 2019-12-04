@@ -1,5 +1,3 @@
-package finalGroupProject;
-
 public class Player {
 	public String name;
 	public int balance = 0;

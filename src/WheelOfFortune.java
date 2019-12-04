@@ -1,20 +1,17 @@
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.util.*;
 
-import java.util.Random;
-
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-public class WheelOfFortune {
+public class WheelofFortune {
 
-	// Wheel of Fortune Main Frame
 	public static void main(String[] args) {
-
-		WheelOfFortuneFrame gameFrame;
-
-		gameFrame = new WheelOfFortuneFrame(new Random());
-		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gameFrame.pack();
-
-		// Show the game interface and start the game!
-		gameFrame.setVisible(true);
+		Board game = new Board();
 	}
 }
