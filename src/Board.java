@@ -6,16 +6,21 @@ import java.util.Random;
 
 import javax.swing.*;
 
+import net.miginfocom.swing.MigLayout;
+
 public class Board {
 	public static final String VOWELS = "AEIOU";
 	public static final String CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZ";
 
 	public static String puzzleGiven = "";
 	public static String gamePuzzle = "";
-	public static JFrame frame = new JFrame("Wheel of Fortune");
-	public static JLabel puzzle = new JLabel(createBoard());
+	private JFrame frame;
+	public static JLabel puzzle = new JLabel(createPuzzle());
 	public static JButton keyButton;
-	private static WheelOfFortuneFrame gameFrame;
+
+	public Board(JFrame frame) {
+		this.frame = frame;
+	}
 
 	public static String updateBoard(char i) {
 		if (VOWELS.indexOf(i) >= 0 || CONSONANTS.indexOf(i) >= 0)
@@ -29,9 +34,7 @@ public class Board {
 		return gamePuzzle;
 	}
 
-	public static String createBoard() {
-		setGameFrame(new WheelOfFortuneFrame(new Random()));
-
+	public static String createPuzzle() {
 		// Puzzle Library
 		ArrayList<String> puzzlesLibrary = new ArrayList<>();
 		puzzlesLibrary.add("Object Oriented Programming!");
@@ -56,7 +59,7 @@ public class Board {
 		return gamePuzzle;
 	}
 
-	public static String guessLetter(String x) {
+	public String guessLetter(String x) {
 		x = x.toUpperCase();
 		char c = x.charAt(0);
 		int index = -1;
@@ -75,78 +78,7 @@ public class Board {
 		return gamePuzzle;
 	}
 
-	public static void main(String[] args) {
-		frame.setPreferredSize(new Dimension(800, 550));
-		frame.setLayout(new FlowLayout());
-
-		// Puzzle
-		puzzle.setFont(new Font("SansSerif", Font.BOLD, 20));
-		frame.add(puzzle);
-
-		// Vowels
-		JPanel vowelPanel = new JPanel();
-		vowelPanel.setLayout(new GridLayout(2, 3));
-		for (int i = 0; i < VOWELS.length(); i++) {
-			final String label = VOWELS.substring(i, i + 1);
-			JButton keyButton = new JButton(label);
-			keyButton.addActionListener(event -> keyButton.setEnabled(false));
-
-			keyButton.addActionListener(event -> guessLetter(label));
-			vowelPanel.add(keyButton);
-			// create array of buttons
-
-			vowelPanel.add(keyButton);
-			// System.out.println(gamePuzzle);
-		}
-		// Consonants
-		JPanel consonantPanel = new JPanel();
-		consonantPanel.setLayout(new GridLayout(3, 3));
-		for (int i = 0; i < CONSONANTS.length(); i++) {
-			final String label = CONSONANTS.substring(i, i + 1);
-			JButton keyButton = new JButton(label);
-
-			keyButton.addActionListener(event -> keyButton.setEnabled(false));
-
-			keyButton.addActionListener(event -> guessLetter(label));
-			consonantPanel.add(keyButton);
-		}
-
-		frame.add(vowelPanel);
-		frame.add(consonantPanel);
-
-		// Spin Wheel Button
-		JButton spinWheelButton = new JButton("Spin Wheel");
-		JLabel sliceLabel = new JLabel();
-		sliceLabel.setBounds(10, 10, 400, 400);
-		frame.add(sliceLabel, java.awt.BorderLayout.SOUTH);
-		spinWheelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				WheelSpace slice = gameFrame.spinWheel();
-				ImageIcon image = slice.getWheelImage();
-				sliceLabel.setIcon(image);
-				sliceLabel.setVisible(true);
-			}
-
-		});
-		frame.add(spinWheelButton);
-
-		JButton buyVowelButton = new JButton("Buy a Vowel");
-		buyVowelButton.addActionListener(event -> buyVowelButton.setEnabled(false));
-		frame.add(buyVowelButton);
-		JButton solvePuzzleButton = new JButton("Solve Puzzle");
-		frame.add(solvePuzzleButton);
-
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-	}
-
-	public static WheelOfFortuneFrame getGameFrame() {
-		return gameFrame;
-	}
-
-	public static void setGameFrame(WheelOfFortuneFrame gameFrame) {
-		Board.gameFrame = gameFrame;
+	public JLabel getPuzzle() {
+		return puzzle;
 	}
 }
