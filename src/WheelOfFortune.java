@@ -21,8 +21,9 @@ public class WheelofFortune extends JFrame {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		Board game = new Board(frame);
+		Board board = new Board(frame);
 		WheelOfFortuneFrame gameFrame = new WheelOfFortuneFrame(new Random());
+		Gameplay game = new Gameplay();
 
 		frame.setPreferredSize(new Dimension(800, 550));
 
@@ -46,6 +47,7 @@ public class WheelofFortune extends JFrame {
 				ImageIcon image = slice.getWheelImage();
 				sliceLabel.setIcon(image);
 				sliceLabel.setVisible(true);
+				// game.spinWheel(slice); // Refer to Gameplay class
 			}
 
 		});
@@ -55,8 +57,28 @@ public class WheelofFortune extends JFrame {
 		// Buy Vowel Button
 		JButton buyVowelButton = new JButton("Buy a Vowel");
 		buyVowelButton.addActionListener(event -> buyVowelButton.setEnabled(true));
+		buyVowelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Deduct $250 from currentPlayer's account
+				// Player selects vowel
+				// If vowel is correct, all instances revealed and player gets another turn
+				// game.buyVowel();
+			}
+
+		});
 		// Solve Puzzle Button
 		JButton solvePuzzleButton = new JButton("Solve Puzzle");
+		solvePuzzleButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Popup window where currentPlayer types in guess
+				// If guess is correct, player wins all money in their balance
+				// Else next turn
+			}
+
+		});
 		JPanel buttonPanel = new JPanel(new GridLayout(0, 1, 20, 20));
 		buttonPanel.add(buyVowelButton);
 		buttonPanel.add(spinWheelButton);
@@ -74,8 +96,7 @@ public class WheelofFortune extends JFrame {
 			final String label = VOWELS.substring(i, i + 1);
 			JButton keyButton = new JButton(label);
 			keyButton.addActionListener(event -> keyButton.setEnabled(true));
-
-			keyButton.addActionListener(event -> game.guessLetter(label));
+			keyButton.addActionListener(event -> board.guessLetter(label));
 			vowelPanel.add(keyButton);
 			// create array of buttons
 			vowelPanel.add(keyButton);
@@ -90,7 +111,7 @@ public class WheelofFortune extends JFrame {
 
 			keyButton.addActionListener(event -> keyButton.setEnabled(true));
 
-			keyButton.addActionListener(event -> game.guessLetter(label));
+			keyButton.addActionListener(event -> board.guessLetter(label));
 			consonantPanel.add(keyButton);
 		}
 
@@ -104,7 +125,7 @@ public class WheelofFortune extends JFrame {
 
 		// Puzzle Panel
 		JPanel puzzlePanel = new JPanel();
-		JLabel puzzle = game.getPuzzle();
+		JLabel puzzle = board.getPuzzle();
 		puzzle.setFont(new Font("SansSerif", Font.BOLD, 20));
 		puzzlePanel.add(puzzle);
 		puzzlePanel.setBorder(BorderFactory.createTitledBorder("Puzzle"));

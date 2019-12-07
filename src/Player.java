@@ -10,5 +10,13 @@ public class Player {
 	public int getBalance()
 	{
 		return balance;
-	}	
+	}
+	
+	public void deposit(int amount) {
+		balance += amount;
+	}
+	
+	public void bankrupt() {
+		balance = 0;
+	}
 }

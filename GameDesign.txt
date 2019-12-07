@@ -1,0 +1,31 @@
+Gameflow:
+	Initiate Board
+	Player can Spin Wheel, Buy Vowel, or Guess Puzzle
+
+Spin Wheel:
+	If wheel lands on monetary amount
+		player must guess consonant
+		if guess is correct
+			player is awarded amount of money * instances of consonant
+			player receives another turn
+		else next turn
+	If wheel lands on "Lose a Turn"
+		next turn
+	If wheel lands on "Bankrupt"
+		player's balance goes to 0
+		next turn
+
+Buy Vowel (Player should not be able to click if balance is below $250):
+	$250 deducted from player's balance
+	player selects vowel
+	if vowel is correct
+		all instances revealed
+		player gets another turn
+	else next turn
+	
+Guess Puzzle:
+	Popup window where player can input text that exactly matches puzzle
+	if guess is correct
+		player wins
+	else next turn
+	

@@ -74,7 +74,6 @@ public class Board {
 		puzzle.setText(gamePuzzle);
 		puzzle.repaint();
 		frame.repaint();
-		System.out.println("This is updated gamePuzzle: " + gamePuzzle);
 		return gamePuzzle;
 	}
 

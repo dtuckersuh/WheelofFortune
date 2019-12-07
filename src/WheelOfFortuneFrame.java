@@ -132,7 +132,6 @@ public class WheelOfFortuneFrame extends JFrame {
 	// Randomly generates slice wheel will land on
 	public WheelSpace spinWheel() {
 		WheelSpace[] wheel = loadImages();
-		System.out.println(generator.nextInt(NUM_WHEEL_SPACES));
 		int wheelSpace = generator.nextInt(NUM_WHEEL_SPACES);
 		return wheel[wheelSpace];
 	}
