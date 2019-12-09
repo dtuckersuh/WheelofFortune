@@ -18,9 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class WheelofFortune extends JFrame {
+	
 	public static final String VOWELS = "AEIOU";
 	public static final String CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZ";
-
+	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		Board board = new Board(frame);
@@ -83,7 +84,7 @@ public class WheelofFortune extends JFrame {
 				String solve = JOptionPane.showInputDialog(null, "Please solve the puzzle as displayed:",
 						"Solve the Puzzle", JOptionPane.PLAIN_MESSAGE);
 
-				String phrase = "Hello"; // change to the actual puzzleGiven
+				String phrase = Board.puzzleGiven; // puzzleGiven
 				StringBuilder puzzlePhrase = new StringBuilder(); // to compare the phrase with the answer
 				StringBuilder answer = new StringBuilder(); //for the input
 
