@@ -81,7 +81,7 @@ public class WheelofFortune extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// window to type in the answer
-				String solve = JOptionPane.showInputDialog(null, "Please solve the puzzle as displayed:",
+				String solve = JOptionPane.showInputDialog(frame, "Please solve the puzzle as displayed:",
 						"Solve the Puzzle", JOptionPane.PLAIN_MESSAGE);
 
 				String phrase = Board.puzzleGiven; // the given puzzle to solve
@@ -95,7 +95,7 @@ public class WheelofFortune extends JFrame {
 				}
 				
 				if (solve != null) {
-					for (int i = 0; i < solve.length(); ++i) {
+					for (int i = 0; i < solve.length(); i++) {
 						if (solve.charAt(i) != ' ') {
 							answer.append(solve.charAt(i));
 						}
@@ -104,13 +104,13 @@ public class WheelofFortune extends JFrame {
 				// if the answer is correct
 				if (answer.toString() != "") {
 					if (answer.toString().compareToIgnoreCase(puzzlePhrase.toString()) == 0) {
-						JOptionPane.showMessageDialog(null, "Congratulations, 'Player' wins $$$", // change the "Player" to the actual name and "$$$" to the actual amount of current player
+						JOptionPane.showMessageDialog(frame, "Congratulations, 'Player' wins $$$", // change the "Player" to the actual name and "$$$" to the actual amount of current player
 								"Game Over. You Win!", JOptionPane.INFORMATION_MESSAGE);
 					}
 					
 					// wrong answer message window
 					else {
-						JOptionPane.showMessageDialog(null, "Guess by 'Player' was incorrect!", // change "Player" to the current player
+						JOptionPane.showMessageDialog(frame, "Guess by 'Player' was incorrect!", // change "Player" to the current player
 								"Wrong Answer!", JOptionPane.ERROR_MESSAGE);
 					}
 				}
