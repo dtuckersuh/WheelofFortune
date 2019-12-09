@@ -105,7 +105,7 @@ public class WheelofFortune extends JFrame {
 				}
 
 				if (solve != null) {
-					for (int i = 0; i < solve.length(); ++i) {
+					for (int i = 0; i < solve.length(); i++) {
 						if (solve.charAt(i) != ' ') {
 							answer.append(solve.charAt(i));
 						}
@@ -117,7 +117,18 @@ public class WheelofFortune extends JFrame {
 						JOptionPane.showMessageDialog(null,
 								"Congratulations, " + game.getCurrentPlayer().getName() + " wins "
 										+ game.getCurrentPlayer().getBalance() + "!",
-								"Game Over. You Win!", JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.showMessageDialog(frame, "Congratulations, 'Player' wins $$$", // change the
+																											// "Player"
+																											// to the
+																											// actual
+																											// name and
+																											// "$$$" to
+																											// the
+																											// actual
+																											// amount of
+																											// current
+																											// player
+										"Game Over. You Win!", JOptionPane.INFORMATION_MESSAGE));
 					}
 
 					// wrong answer message window
@@ -125,6 +136,10 @@ public class WheelofFortune extends JFrame {
 						JOptionPane.showMessageDialog(null,
 								"Guess by " + game.getCurrentPlayer().getName() + " was incorrect!", "Wrong Answer!",
 								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(frame, "Guess by 'Player' was incorrect!", // change "Player" to
+																									// the current
+																									// player
+								"Wrong Answer!", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 
