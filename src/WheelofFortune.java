@@ -114,21 +114,8 @@ public class WheelofFortune extends JFrame {
 				// if the answer is correct
 				if (answer.toString() != "") {
 					if (answer.toString().compareToIgnoreCase(puzzlePhrase.toString()) == 0) {
-						JOptionPane.showMessageDialog(null,
-								"Congratulations, " + game.getCurrentPlayer().getName() + " wins "
-										+ game.getCurrentPlayer().getBalance() + "!",
-								JOptionPane.showMessageDialog(frame, "Congratulations, 'Player' wins $$$", // change the
-																											// "Player"
-																											// to the
-																											// actual
-																											// name and
-																											// "$$$" to
-																											// the
-																											// actual
-																											// amount of
-																											// current
-																											// player
-										"Game Over. You Win!", JOptionPane.INFORMATION_MESSAGE));
+						JOptionPane.showMessageDialog(frame, "Congratulations, " + game.getCurrentPlayer().getName()
+								+ " wins " + game.getCurrentPlayer().getBalance() + "!");
 					}
 
 					// wrong answer message window
@@ -136,10 +123,6 @@ public class WheelofFortune extends JFrame {
 						JOptionPane.showMessageDialog(null,
 								"Guess by " + game.getCurrentPlayer().getName() + " was incorrect!", "Wrong Answer!",
 								JOptionPane.ERROR_MESSAGE);
-						JOptionPane.showMessageDialog(frame, "Guess by 'Player' was incorrect!", // change "Player" to
-																									// the current
-																									// player
-								"Wrong Answer!", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 
@@ -185,7 +168,10 @@ public class WheelofFortune extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					int instances = board.guessLetter(label);
-					game.getCurrentPlayer().deposit(instances * game.getSlice().getSpaceValue());
+					if (game.getSlice() != null) {
+						game.getCurrentPlayer().deposit(instances * game.getSlice().getSpaceValue());
+						System.out.println(game.getCurrentPlayer().getBalance());
+					}
 					// TODO: Update balance display with new balance
 				}
 			});
