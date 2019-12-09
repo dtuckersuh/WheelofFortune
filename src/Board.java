@@ -17,9 +17,11 @@ public class Board {
 	private JFrame frame;
 	public static JLabel puzzle = new JLabel(createPuzzle());
 	public static JButton keyButton;
+	private Gameplay game;
 
 	public Board(JFrame frame) {
 		this.frame = frame;
+		this.game = game;
 	}
 
 	public static String updateBoard(char i) {
@@ -59,22 +61,23 @@ public class Board {
 		return gamePuzzle;
 	}
 
-	public String guessLetter(String x) {
+	public int guessLetter(String x) {
 		x = x.toUpperCase();
 		char c = x.charAt(0);
 		int index = -1;
-
+		int instances = 0;
 		for (int i = 0; i < puzzleGiven.length(); i++) {
 			// if c is in puzzle
 			if (puzzleGiven.charAt(i) == c) {
 				index = (i * 2);
 				gamePuzzle = gamePuzzle.substring(0, (index)) + c + gamePuzzle.substring(index + 1);
+				instances++;
 			}
 		}
 		puzzle.setText(gamePuzzle);
 		puzzle.repaint();
 		frame.repaint();
-		return gamePuzzle;
+		return instances;
 	}
 
 	public JLabel getPuzzle() {

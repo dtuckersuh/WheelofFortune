@@ -9,12 +9,12 @@ import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class WheelOfFortuneFrame extends JFrame {
-	/** Number of wheel spaces in the game. */
+	// Number of wheel spaces in the game.
 	public static final int NUM_WHEEL_SPACES = 24;
 
-	/** Path to images folder. */
+	// Path to images folder.
 	public static final String IMAGES_PATH = "images";
-	/** File extension for images. */
+	// File extension for images.
 	public static final String IMAGE_EXTENSION = "jpg";
 
 	private Random generator;

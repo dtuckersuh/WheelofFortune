@@ -18,15 +18,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class WheelofFortune extends JFrame {
-	
+
 	public static final String VOWELS = "AEIOU";
 	public static final String CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZ";
-	
+	public static final int AMOUNT_OF_PLAYERS = 3;
+
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		Board board = new Board(frame);
 		WheelOfFortuneFrame gameFrame = new WheelOfFortuneFrame(new Random());
-		Gameplay game = new Gameplay();
+		Gameplay game = new Gameplay(frame);
 
 		frame.setPreferredSize(new Dimension(800, 550));
 
@@ -36,7 +37,15 @@ public class WheelofFortune extends JFrame {
 
 		// Player Panel
 		JPanel playerPanel = new JPanel();
-		playerPanel.setBorder(BorderFactory.createTitledBorder("Players"));
+		playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.X_AXIS));
+		ArrayList<Player> players = game.getPlayers();
+		for (int i = 0; i < AMOUNT_OF_PLAYERS; i++) {
+			JPanel playerBox = new JPanel();
+			JLabel playerBalance = new JLabel("$" + String.valueOf(players.get(i).getBalance()));
+			playerPanel.add(playerBox);
+			playerBox.add(playerBalance);
+			playerBox.setBorder(BorderFactory.createTitledBorder(players.get(i).getName()));
+		}
 		mainPanel.add(playerPanel);
 
 		// Spin Wheel Button
@@ -47,16 +56,16 @@ public class WheelofFortune extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				WheelSpace slice = gameFrame.spinWheel();
+				game.setSlice(slice);
 				ImageIcon image = slice.getWheelImage();
 				sliceLabel.setIcon(image);
 				sliceLabel.setVisible(true);
-				// game.spinWheel(slice); // Refer to Gameplay class
 			}
 
 		});
 		// Panel containing buyVowel, spinWheel, solvePuzzle buttons and wheel image
 		JPanel centerPanel = new JPanel(new FlowLayout());
-		centerPanel.setPreferredSize(new Dimension(800, 225));
+		// centerPanel.setPreferredSize(new Dimension(800, 225));
 		// Buy Vowel Button
 		JButton buyVowelButton = new JButton("Buy a Vowel");
 		buyVowelButton.addActionListener(event -> buyVowelButton.setEnabled(true));
@@ -64,36 +73,37 @@ public class WheelofFortune extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Deduct $250 from currentPlayer's account
+				game.buyVowel();
 				// Player selects vowel
 				// If vowel is correct, all instances revealed and player gets another turn
 				// game.buyVowel();
 			}
 
 		});
-		
-		//Solve Puzzle Button
+
+		// Solve Puzzle Button
 		JButton solvePuzzleButton = new JButton("Solve Puzzle");
 		solvePuzzleButton.addActionListener(new ActionListener() {
 			// Popup window where currentPlayer types in guess
 			// If guess is correct, player wins all money in their balance
 			// Else next turn
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// window to type in the answer
-				String solve = JOptionPane.showInputDialog(null, "Please solve the puzzle as displayed:",
+				String solve = JOptionPane.showInputDialog(frame, "Please solve the puzzle as displayed:",
 						"Solve the Puzzle", JOptionPane.PLAIN_MESSAGE);
 
 				String phrase = Board.puzzleGiven; // the given puzzle to solve
 				StringBuilder puzzlePhrase = new StringBuilder(); // to compare the phrase with the answer
-				StringBuilder answer = new StringBuilder(); //for the input
+				StringBuilder answer = new StringBuilder(); // for the input
 
 				for (int i = 0; i < phrase.length(); i++) {
 					if (phrase.charAt(i) != ' ') {
 						puzzlePhrase.append(phrase.charAt(i));
 					}
 				}
-				
+
 				if (solve != null) {
 					for (int i = 0; i < solve.length(); ++i) {
 						if (solve.charAt(i) != ' ') {
@@ -104,24 +114,24 @@ public class WheelofFortune extends JFrame {
 				// if the answer is correct
 				if (answer.toString() != "") {
 					if (answer.toString().compareToIgnoreCase(puzzlePhrase.toString()) == 0) {
-						JOptionPane.showMessageDialog(null, "Congratulations, 'Player' wins $$$", // change the "Player" to the actual name and "$$$" to the actual amount of current player
+						JOptionPane.showMessageDialog(null,
+								"Congratulations, " + game.getCurrentPlayer().getName() + " wins "
+										+ game.getCurrentPlayer().getBalance() + "!",
 								"Game Over. You Win!", JOptionPane.INFORMATION_MESSAGE);
 					}
-					
+
 					// wrong answer message window
 					else {
-						JOptionPane.showMessageDialog(null, "Guess by 'Player' was incorrect!", // change "Player" to the current player
-								"Wrong Answer!", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,
+								"Guess by " + game.getCurrentPlayer().getName() + " was incorrect!", "Wrong Answer!",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 
 			}
 
 		});
-		
-		
-		
-		
+
 		JPanel buttonPanel = new JPanel(new GridLayout(0, 1, 20, 20));
 		buttonPanel.add(buyVowelButton);
 		buttonPanel.add(spinWheelButton);
@@ -154,7 +164,16 @@ public class WheelofFortune extends JFrame {
 
 			keyButton.addActionListener(event -> keyButton.setEnabled(true));
 
-			keyButton.addActionListener(event -> board.guessLetter(label));
+			// keyButton.addActionListener(event -> board.guessLetter(label));
+			keyButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int instances = board.guessLetter(label);
+					game.getCurrentPlayer().deposit(instances * game.getSlice().getSpaceValue());
+					// TODO: Update balance display with new balance
+				}
+			});
 			consonantPanel.add(keyButton);
 		}
 
@@ -179,5 +198,7 @@ public class WheelofFortune extends JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
+
+		// game.begin();
 	}
 }

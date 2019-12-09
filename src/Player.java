@@ -7,16 +7,20 @@ public class Player {
 		this.name = name;
 	}
 	
-	public int getBalance()
-	{
-		return balance;
-	}
-	
 	public void deposit(int amount) {
 		balance += amount;
 	}
 	
 	public void bankrupt() {
 		balance = 0;
+	}
+	
+	public int getBalance()
+	{
+		return balance;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
