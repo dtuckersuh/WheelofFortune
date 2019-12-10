@@ -23,6 +23,12 @@ public class WheelofFortune extends JFrame {
 	public static final String CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZ";
 	public static final int AMOUNT_OF_PLAYERS = 3;
 	public static final int VOWEL_WITHDRAW = 250;
+	
+	public static JButton [] vowelButtons = new JButton[VOWELS.length()];
+	public static JButton [] consonanButtons = new JButton[CONSONANTS.length()];
+	public static boolean [] vowelPermDisable = new boolean[VOWELS.length()];
+	public static boolean [] consosantPermDisable = new boolean[CONSONANTS.length()];
+	public static boolean permDisable;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -70,17 +76,14 @@ public class WheelofFortune extends JFrame {
 		// centerPanel.setPreferredSize(new Dimension(800, 225));
 		// Buy Vowel Button
 		JButton buyVowelButton = new JButton("Buy a Vowel");
-		buyVowelButton.addActionListener(event -> buyVowelButton.setEnabled(true));
-		buyVowelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Deduct $250 from currentPlayer's account
-				game.buyVowel();
-				// Player selects vowel
-				// If vowel is correct, all instances revealed and player gets another turn
-				// game.buyVowel();
+		buyVowelButton.addActionListener(event ->
+		{
+			for (int i = 0; i < vowelButtons.length; i++)
+			{
+				if (!vowelPermDisable[i])
+					vowelButtons[i].setEnabled(true);
+				frame.repaint();
 			}
-
 		});
 
 		// Solve Puzzle Button
@@ -145,11 +148,17 @@ public class WheelofFortune extends JFrame {
 		JPanel vowelPanel = new JPanel();
 		vowelPanel.setBorder(BorderFactory.createTitledBorder("Vowels"));
 		vowelPanel.setLayout(new GridLayout(2, 3));
-		for (int i = 0; i < VOWELS.length(); i++) {
+		for (int i = 0; i < vowelButtons.length; i++) {
+			int index = i;
 			final String label = VOWELS.substring(i, i + 1);
 			JButton keyButton = new JButton(label);
-			keyButton.addActionListener(event -> keyButton.setEnabled(true));
+			keyButton.setEnabled(false);
 			
+			
+			keyButton.addActionListener(event ->
+			vowelPermDisable[index] = true);
+			keyButton.addActionListener(event ->
+			keyButton.setEnabled(false));
 			keyButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) 
@@ -175,6 +184,7 @@ public class WheelofFortune extends JFrame {
 		});
 			
 			keyButton.addActionListener(event -> board.guessLetter(label));
+			vowelButtons[i] = keyButton;
 			vowelPanel.add(keyButton);
 			// create array of buttons
 			vowelPanel.add(keyButton);
