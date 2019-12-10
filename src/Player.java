@@ -17,6 +17,11 @@ public class Player {
 		balance += amount;
 		playerPanel.setText("$" + balance);
 	}
+	
+	public void withdraw(int amount) {
+		balance -= amount;
+		playerPanel.setText("$" + balance);
+	}
 
 	public void bankrupt() {
 		balance = 0;
