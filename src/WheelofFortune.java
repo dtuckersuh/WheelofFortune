@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class WheelofFortune extends JFrame {
 
@@ -41,6 +42,7 @@ public class WheelofFortune extends JFrame {
 		for (int i = 0; i < AMOUNT_OF_PLAYERS; i++) {
 			JPanel playerBox = new JPanel();
 			JLabel playerBalance = new JLabel("$" + String.valueOf(players.get(i).getBalance()));
+			players.get(i).addLabel(playerBalance);
 			playerPanel.add(playerBox);
 			playerBox.add(playerBalance);
 			playerBox.setBorder(BorderFactory.createTitledBorder(players.get(i).getName()));
@@ -179,6 +181,7 @@ public class WheelofFortune extends JFrame {
 							System.out.println(current.getBalance());
 							JOptionPane.showMessageDialog(frame,
 									game.getCurrentPlayer().getName() + " won $" + prize + " and gets another turn!");
+
 						}
 					}
 					// TODO: Update balance display with new balance
