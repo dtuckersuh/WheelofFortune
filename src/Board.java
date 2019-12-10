@@ -1,12 +1,7 @@
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.*;
-
-import net.miginfocom.swing.MigLayout;
 
 public class Board {
 	public static final String VOWELS = "AEIOU";
@@ -17,11 +12,9 @@ public class Board {
 	private JFrame frame;
 	public static JLabel puzzle = new JLabel(createPuzzle());
 	public static JButton keyButton;
-	private Gameplay game;
 
 	public Board(JFrame frame) {
 		this.frame = frame;
-		this.game = game;
 	}
 
 	public static String updateBoard(char i) {

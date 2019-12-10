@@ -15,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class WheelofFortune extends JFrame {
 
@@ -56,10 +55,10 @@ public class WheelofFortune extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				WheelSpace slice = gameFrame.spinWheel();
-				game.setSlice(slice);
 				ImageIcon image = slice.getWheelImage();
 				sliceLabel.setIcon(image);
 				sliceLabel.setVisible(true);
+				game.setSlice(slice);
 			}
 
 		});
@@ -168,9 +167,19 @@ public class WheelofFortune extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					int instances = board.guessLetter(label);
-					if (game.getSlice() != null) {
-						game.getCurrentPlayer().deposit(instances * game.getSlice().getSpaceValue());
-						System.out.println(game.getCurrentPlayer().getBalance());
+					Player current = game.getCurrentPlayer();
+					if (instances == 0) {
+						game.nextTurn();
+						JOptionPane.showMessageDialog(frame,
+								"Wrong letter. " + game.getCurrentPlayer().getName() + "'s turn!");
+					} else {
+						if (game.getSlice() != null) {
+							int prize = instances * game.getSlice().getSpaceValue();
+							current.deposit(prize);
+							System.out.println(current.getBalance());
+							JOptionPane.showMessageDialog(frame,
+									game.getCurrentPlayer().getName() + " won $" + prize + " and gets another turn!");
+						}
 					}
 					// TODO: Update balance display with new balance
 				}
@@ -200,6 +209,7 @@ public class WheelofFortune extends JFrame {
 		frame.pack();
 		frame.setVisible(true);
 
-		// game.begin();
+		JOptionPane.showMessageDialog(frame,
+				"Welcome to Wheel of Fortune! " + game.getCurrentPlayer().getName() + "'s turn.");
 	}
 }

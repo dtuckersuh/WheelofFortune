@@ -5,11 +5,11 @@ import javax.swing.JOptionPane;
 
 public class Gameplay {
 	private ArrayList<Player> players;
-	private Board board;
 	private Player currentPlayer;
 	private WheelSpace currentSlice;
 	private JFrame frame;
 	private boolean winner;
+	private int turn;
 
 	public static final int AMOUNT_OF_PLAYERS = 3;
 
@@ -17,9 +17,8 @@ public class Gameplay {
 
 	public Gameplay(JFrame frame) {
 		this.players = new ArrayList<Player>();
-		this.board = board;
-		this.currentSlice = currentSlice;
 		this.frame = frame;
+		this.turn = 0;
 
 		for (int i = 1; i <= AMOUNT_OF_PLAYERS; i++) {
 			String name = javax.swing.JOptionPane.showInputDialog("Player " + i + " name");
@@ -31,15 +30,6 @@ public class Gameplay {
 		this.currentPlayer = players.get(0);
 	}
 
-	public void begin() {
-		int turn = 0;
-		while (!getWinner()) {
-			JOptionPane.showMessageDialog(frame, currentPlayer.getName() + "'s turn!");
-			turn++;
-			currentPlayer = players.get(turn % 3);
-		}
-	}
-
 	// Initial player setup
 	public ArrayList<Player> getPlayers() {
 		return players;
@@ -49,30 +39,37 @@ public class Gameplay {
 
 	public void setSlice(WheelSpace slice) {
 		this.currentSlice = slice;
+		if (slice.getSpaceValue() == -1) { // Lose a Turn
+			String prev = currentPlayer.getName();
+			nextTurn();
+			JOptionPane.showMessageDialog(frame, prev + " lost a turn! " + currentPlayer.getName() + "'s turn.");
+		} else if (slice.getSpaceValue() == -2) { // Bankrupt
+			currentPlayer.bankrupt();
+			String prev = currentPlayer.getName();
+			nextTurn();
+			JOptionPane.showMessageDialog(frame, prev + " went bankrupt!" + currentPlayer.getName() + "'s turn.");
+		}
 	}
 
 	public WheelSpace getSlice() {
 		return this.currentSlice;
 	}
 
-	public void buyVowel() {
+	public boolean buyVowel() {
 		// if player balance below $250, cannot buy vowel
 		int vowelAmount = 250;
 		if (currentPlayer.getBalance() < vowelAmount) {
 			javax.swing.JOptionPane.showMessageDialog(frame, "Must have at least $250 to buy vowel!");
+			return false;
 		}
+		return true;
 		// Vowel panel is enabled, player selects vowel
 		// if vowel is correct, all instances shown and player gets another turn
 	}
 
-	// Popup window asking for text input for player's guess
-	public void guessPuzzle() {
-		// If guess is correct, game over
-		// else next turn
-	}
-
 	public void nextTurn() {
-
+		turn++;
+		currentPlayer = players.get(turn % 3);
 	}
 
 	// Message telling player they get another turn

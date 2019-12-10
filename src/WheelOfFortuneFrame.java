@@ -69,7 +69,7 @@ public class WheelOfFortuneFrame extends JFrame {
 	private static class WheelSpaceImageFilter implements FileFilter {
 		/** Prefix of the requested filename. */
 		private String prefix; // The prefix of the filename we're looking
-								// for - what comes before the first underscore
+		// for - what comes before the first underscore
 
 		/**
 		 * Constructs a filter with the given prefix.
@@ -107,6 +107,11 @@ public class WheelOfFortuneFrame extends JFrame {
 		public static int getSpaceValue(File imageFile) {
 			int dollar = 0;
 			String fileName = imageFile.getName();
+			if (fileName.substring(0, 2).equals("1_")) {
+				dollar = -1; // Lose a Turn
+			} else if (fileName.substring(0, 2).equals("21")) {
+				dollar = -2; // Bankrupt
+			}
 			String[] tokens = fileName.split(("\\.(?=[^\\.]+$)"));
 			int index = tokens[0].indexOf("_");
 			if (index != -1) {
