@@ -22,6 +22,7 @@ public class WheelofFortune extends JFrame {
 	public static final String VOWELS = "AEIOU";
 	public static final String CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZ";
 	public static final int AMOUNT_OF_PLAYERS = 3;
+	public static final int VOWEL_WITHDRAW = 250;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -148,6 +149,31 @@ public class WheelofFortune extends JFrame {
 			final String label = VOWELS.substring(i, i + 1);
 			JButton keyButton = new JButton(label);
 			keyButton.addActionListener(event -> keyButton.setEnabled(true));
+			
+			keyButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				int instances = board.guessLetter(label);
+				Player current = game.getCurrentPlayer();
+				current.withdraw(VOWEL_WITHDRAW);
+				if (instances == 0) 
+				{
+					game.nextTurn();
+					JOptionPane.showMessageDialog(frame,
+							"This vowel is not in the puzzle. " + game.getCurrentPlayer().getName() + "'s turn!");
+				} 
+				else 
+				{
+						System.out.println(current.getBalance());
+						JOptionPane.showMessageDialog(frame,
+								game.getCurrentPlayer().getName() + " gets another turn!");
+
+				}
+				// TODO: Update balance display with new balance
+			}
+		});
+			
 			keyButton.addActionListener(event -> board.guessLetter(label));
 			vowelPanel.add(keyButton);
 			// create array of buttons
@@ -163,11 +189,11 @@ public class WheelofFortune extends JFrame {
 
 			keyButton.addActionListener(event -> keyButton.setEnabled(true));
 
-			// keyButton.addActionListener(event -> board.guessLetter(label));
 			keyButton.addActionListener(new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent e) 
+				{
 					int instances = board.guessLetter(label);
 					Player current = game.getCurrentPlayer();
 					if (instances == 0) {
